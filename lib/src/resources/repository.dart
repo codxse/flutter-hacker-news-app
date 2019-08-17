@@ -14,7 +14,7 @@ class Repository {
     db_prov.newsDbProvider,
   ];
 
-  Future<List<int>> fetchTopId() async {
+  Future<List<int>> fetchTopIds() async {
     return this.sources[1].fetchTopIds();
   }
 
