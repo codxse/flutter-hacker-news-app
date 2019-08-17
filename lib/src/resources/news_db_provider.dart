@@ -4,11 +4,16 @@ import 'package:path/path.dart' as path;
 import 'dart:io' as io;
 import 'dart:async';
 import '../models/item_model.dart' as im;
+import 'abstract/provider.dart' as prov;
 
-class NewsDbProvider {
+class NewsDbProvider implements prov.Source, prov.Cache {
   sqf.Database db;
 
-  init() async {
+  NewsDbProvider() {
+    this._init();
+  }
+
+  _init() async {
     io.Directory documentsDirectory =
         await pathp.getApplicationDocumentsDirectory();
     final String pathDirectory = path.join(documentsDirectory.path, 'items.db');
@@ -36,6 +41,9 @@ class NewsDbProvider {
     );
   }
 
+  // Todo - store and fetch top ids
+  Future<List<int>> fetchTopIds() => null;
+
   Future<im.ItemModel> fetchItem(int id) async {
     final List<Map<String, dynamic>> maps = await this.db.query(
       'Items',
@@ -55,3 +63,5 @@ class NewsDbProvider {
     return await this.db.insert('Item', item.toMapFordDb());
   }
 }
+
+final NewsDbProvider newsDbProvider = NewsDbProvider();

@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'package:flutter_hacker_news/src/models/item_model.dart' as im;
+import 'abstract/provider.dart' as prov;
 import 'dart:convert';
 import 'dart:async';
 
 final String _root = 'https://hacker-news.firebaseio.com/v0';
 
-class NewsApiProvider {
+class NewsApiProvider implements prov.Source {
   http.Client _client = http.Client();
 
   Future<List<int>> fetchTopIds() async {
