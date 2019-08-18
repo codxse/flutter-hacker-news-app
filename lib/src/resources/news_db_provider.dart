@@ -27,6 +27,7 @@ class NewsDbProvider implements prov.Source, prov.Cache {
             type TEXT,
             by TEXT,
             time INTEGER,
+            text TEXT,
             parent INTEGER,
             kids BLOB,
             dead INTEGER,
@@ -34,7 +35,7 @@ class NewsDbProvider implements prov.Source, prov.Cache {
             url TEXT,
             score INTEGER,
             title TEXT,
-            descendents INTEGER
+            descendants INTEGER
           )
         ''');
       },
@@ -60,7 +61,11 @@ class NewsDbProvider implements prov.Source, prov.Cache {
   }
 
   Future<int> addItem(im.ItemModel item) async {
-    return await this.db.insert('Item', item.toMapFordDb());
+    return await this.db.insert(
+          'Items',
+          item.toMapFordDb(),
+          conflictAlgorithm: sqf.ConflictAlgorithm.ignore,
+        );
   }
 }
 

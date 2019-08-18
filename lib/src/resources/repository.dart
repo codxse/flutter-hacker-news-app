@@ -41,7 +41,10 @@ class Repository {
     }
 
     for (prov.Cache cache in this.caches) {
-      cache.addItem(item);
+      // ignore: unrelated_type_equality_checks
+      if (cache != source) {
+        cache.addItem(item);
+      }
     }
 
     return item;

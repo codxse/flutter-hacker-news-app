@@ -17,12 +17,12 @@ class ItemModel {
 
   ItemModel.fromJson(Map<String, dynamic> parsedJson)
       : this.id = parsedJson['id'],
-        this.deleted = parsedJson['deleted'],
+        this.deleted = parsedJson['deleted'] == 1 ? true : false,
         this.type = parsedJson['type'],
         this.by = parsedJson['by'],
         this.time = parsedJson['time'],
         this.text = parsedJson['text'],
-        this.dead = parsedJson['dead'],
+        this.dead = parsedJson['dead'] == 1 ? true : false,
         this.parent = parsedJson['parent'],
         this.kids = parsedJson['kids'],
         this.url = parsedJson['url'],
@@ -32,12 +32,12 @@ class ItemModel {
 
   ItemModel.fromDb(Map<String, dynamic> parsedJson)
       : this.id = parsedJson['id'],
-        this.deleted = parsedJson['deleted'] != 0,
+        this.deleted = parsedJson['deleted'] == 1,
         this.type = parsedJson['type'],
         this.by = parsedJson['by'],
         this.time = parsedJson['time'],
         this.text = parsedJson['text'],
-        this.dead = parsedJson['dead'] != 0,
+        this.dead = parsedJson['dead'] == 1,
         this.parent = parsedJson['parent'],
         this.kids = jsonDecode(parsedJson['kids']),
         this.url = parsedJson['url'],
@@ -64,12 +64,20 @@ class ItemModel {
   }
 
   Map<String, dynamic> toMapFordDb() {
-    Map<String, dynamic> oroginMap = this.toMap();
-    oroginMap['dead'] = this.dead ? 1 : 0;
-    oroginMap['deleted'] = this.deleted ? 1 : 0;
-    oroginMap['kids'] = jsonEncode(this.kids);
+    Map<String, dynamic> originMap = this.toMap();
 
-    return oroginMap;
+    originMap['dead'] = this.dead == null ? 1 : 0;
+    originMap['deleted'] = this.deleted == null ? 1 : 0;
+    originMap['kids'] = jsonEncode(this.kids);
+    originMap['type'] = this.type == null ? '' : this.type;
+    originMap['by'] = this.by == null ? '' : this.by;
+    originMap['time'] = this.time == null ? 0 : this.time;
+    originMap['text'] = this.text == null ? '' : this.text;
+    originMap['url'] = this.url == null ? 'https://www.google.com' : this.url;
+    originMap['score'] = this.score == null ? 0 : this.score;
+    originMap['title'] = this.title == null ? '' : this.title;
+
+    return originMap;
   }
 
 }
